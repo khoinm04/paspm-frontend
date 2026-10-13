@@ -46,3 +46,7 @@ Review found and fixed archive semantics, percentage/cents display, category fil
 ## Backend replacement points
 
 Typed DTOs live in `src/domain/models.ts`; asynchronous commands, persistence and mock invariants live in `src/services/demo.ts`; `src/state/DemoContext.tsx` binds snapshots and feedback to React. These are the adapter boundaries for future ASP.NET Core REST integration. `API-BOUNDARY.md` describes what must be replaced, including remote read states and real job progress. Shared UI and page composition are reusable.
+
+## UI refinement, 14 October 2026
+
+The latest UI pass restores mining/detail compositions and refines typography, spacing, card actions and tablet/mobile layouts. See [UI-REFINEMENT.md](UI-REFINEMENT.md) for the source comparison and current visual verification. The screenshots now reflect this revision.

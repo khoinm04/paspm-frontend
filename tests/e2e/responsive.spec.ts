@@ -101,6 +101,9 @@ for (const viewport of [
       }),
     ).toBeVisible();
     await capture("recommendations");
+    if (viewport.name === "desktop") {
+      await page.screenshot({ path: "artifacts/screenshots/preview.png" });
+    }
     await page.goto("/login");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await capture("login");
