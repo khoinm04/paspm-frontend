@@ -1,0 +1,93 @@
+[
+  {
+    "file": "import-pos.png",
+    "width": 2606,
+    "height": 3262,
+    "bytes": 896700,
+    "sha256": "8afffffc14fec36da198aac3c12eb49ad6b8965874e02464e8abaf886b8d9637"
+  },
+  {
+    "file": "import-rejected.png",
+    "width": 2580,
+    "height": 4117,
+    "bytes": 1184206,
+    "sha256": "48be5da2cd68fda2e1e7d93a24291c07ed892098a25d5f935829778c67689ae3"
+  },
+  {
+    "file": "import-warnings.png",
+    "width": 2606,
+    "height": 3680,
+    "bytes": 1138218,
+    "sha256": "97985111a7eb519fefa8a36d27e5ecbefd7b1f3bcbba4d7eef1a5566070cfd4f"
+  },
+  {
+    "file": "login.png",
+    "width": 2560,
+    "height": 2078,
+    "bytes": 3732380,
+    "sha256": "8a9ec992ca3ef8360cbcfc4fa7a46054c5937874403c033627c612cca15ab040"
+  },
+  {
+    "file": "mining-config.png",
+    "width": 2564,
+    "height": 3286,
+    "bytes": 890613,
+    "sha256": "f272ae90c2870d56b6149b5dd1f8a67b84a113d9e2b5961bc21a3ffa250b1891"
+  },
+  {
+    "file": "mining-empty.png",
+    "width": 2564,
+    "height": 3232,
+    "bytes": 689158,
+    "sha256": "be1b8ba33e4ad9adf9516e8ec8d21312c3922334f743c544397144add7bb8fcf"
+  },
+  {
+    "file": "mining-invalid.png",
+    "width": 2564,
+    "height": 3666,
+    "bytes": 1011817,
+    "sha256": "4982c776ac92f76a2bc7cb05b57aea11681d2990ca32c9e7579242b9adbe3432"
+  },
+  {
+    "file": "mining-no-data.png",
+    "width": 2574,
+    "height": 4055,
+    "bytes": 1107088,
+    "sha256": "4cdfcae395e4e3b8f39a0ce5a2e81659ddb0bfefe465786eef8473568a2c7fa6"
+  },
+  {
+    "file": "mining-results.png",
+    "width": 2564,
+    "height": 6703,
+    "bytes": 1433653,
+    "sha256": "e2200f52d1f4819320130066852b789b369c9a4a19122b89f3423635ac270670"
+  },
+  {
+    "file": "mining-running.png",
+    "width": 2560,
+    "height": 3626,
+    "bytes": 699019,
+    "sha256": "4b5c6ad674f828ca67d9c86ed3b39f27a6d6162841e9eaeadf322bff91773986"
+  },
+  {
+    "file": "recommendation-detail.png",
+    "width": 2560,
+    "height": 3465,
+    "bytes": 805143,
+    "sha256": "5642481682cafcefa8e754329d5cfd3565449ba6efc3192094a65b2b11fe7083"
+  },
+  {
+    "file": "recommendations-empty.png",
+    "width": 2560,
+    "height": 1600,
+    "bytes": 380575,
+    "sha256": "75a00a1c5b3ec33eb09695e3ed76ebd38236b61c77929561fd9697a2e42de3a7"
+  },
+  {
+    "file": "recommendations.png",
+    "width": 2564,
+    "height": 4195,
+    "bytes": 944317,
+    "sha256": "7efd5390f462d6d849746c4dfcd1fba6a40307b27dc498eaf5182ac6eeb6ed9d"
+  }
+]

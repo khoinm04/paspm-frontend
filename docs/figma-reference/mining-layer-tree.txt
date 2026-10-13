@@ -1,0 +1,141 @@
+Browser tab: 1, Title: "Untitled – Figma", URL: "https://www.figma.com/design/r5H6UtyItzPETFSSJiB4kA/Untitled?node-id=7-2615&t=iqYr1ULhg94FPcLE-0".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 82-105, 348-359, 552-558, 563-574
+~								78 row (selected, expanded) Mining Config — Clean & Minimalist (Basket Analytics), Secondary Actions: Collapse
+~								559 row (selected, expanded) Secondary Actions: Collapse, TOPBAR / HEADER & MAIN CONTENT WRAPPER → Main - MAIN PAGE CONTENT Toggle layer locking Toggle layer visibility
++									563 container
++										564 cell
++											565 checkbox (settable, integer) Description: Toggle layer locking, Value: 0, ID: :r156:
++											566 text Toggle layer locking
++										567 cell
++											568 checkbox (settable, integer) Description: Toggle layer visibility, Value: 0, ID: :r157:
++											569 text Toggle layer visibility
++								570 row (selected, expanded) Container, Secondary Actions: Collapse
++									571 container
++										572 cell
++											573 text Container
++								574 row (selected, expanded) 1. Breadcrumbs & Page Header, Secondary Actions: Collapse
++									575 container
++										576 cell
++											577 text 1. Breadcrumbs & Page Header
++								578 row (selected, expanded) Nav - Breadcrumb Bar, Secondary Actions: Collapse
++									579 container
++										580 cell
++											581 text Nav - Breadcrumb Bar
++								582 row (selected, expanded) Link, Secondary Actions: Collapse
++									583 container
++										584 cell
++											585 text Link
++								586 row (selected, expanded) Container, Secondary Actions: Collapse
++									587 container
++										588 cell
++											589 text Container
++								590 row (selected) Icon
++									591 container
++										592 cell
++											593 text Icon
++								594 row (selected, expanded) Container, Secondary Actions: Collapse
++									595 container
++										596 cell
++											597 text Container
++								598 row (selected) Text
++									599 container
++										600 cell
++											601 text Text
++								602 row (selected, expanded) Container, Secondary Actions: Collapse
++									603 container
++										604 cell
++											605 text Container
++								606 row (selected) Text
++									607 container
++										608 cell
++											609 text Text
++								610 row (selected, expanded) Link, Secondary Actions: Collapse
++									611 container
++										612 cell
++											613 text Link
++								614 row (selected) Text
++									615 container
++										616 cell
++											617 text Text
++								618 row (selected, expanded) Container, Secondary Actions: Collapse
++									619 container
++										620 cell
++											621 text Container
++								622 row (selected) Text
++									623 container
++										624 cell
++											625 text Text
++								626 row (selected, expanded) Link, Secondary Actions: Collapse
++									627 container
++										628 cell
++											629 text Link
++								630 row (selected) Text
++									631 container
++										632 cell
++											633 text Text
++								634 row (selected, expanded) Container, Secondary Actions: Collapse
++									635 container
++										636 cell
++											637 text Container
++								638 row (selected) Text
++									639 container
++										640 cell
++											641 text Text
++								642 row (selected, expanded) Container, Secondary Actions: Collapse
++									643 container
++										644 cell
++											645 text Container
++								646 row (selected) Text
++									647 container
++										648 cell
++											649 text Text
++								650 row (selected, expanded) Title & Contextual Header, Secondary Actions: Collapse
++									651 container
++										652 cell
++											653 text Title & Contextual Header
++								654 row (selected, expanded) Container, Secondary Actions: Collapse
++									655 container
++										656 cell
++											657 text Container
++								658 row (selected, expanded) Heading 1, Secondary Actions: Collapse
++									659 container
++										660 cell
++											661 text Heading 1
++								662 row (selected) Text
++									663 container
++										664 cell
++											665 text Text
++								666 row (selected, expanded) Margin, Secondary Actions: Collapse
++									667 container
++										668 cell
++											669 text Margin
++								670 row (selected, expanded) Container, Secondary Actions: Collapse
++									671 container
++										672 cell
++											673 text Container
++								674 row (selected) Set your profit target and display rules to discover products to place together on shelves.
++									675 container
++										676 cell
++											677 text Set your profit target and display rules to discover products to place together on shelves.
++								678 row (selected, expanded) Button, Secondary Actions: Collapse
++									679 container
++										680 cell
++											681 text Button
++								682 row (selected, expanded) Container, Secondary Actions: Collapse
++									683 container
++										684 cell
++											685 text Container
++								686 row (selected) Icon
++									687 container
++										688 cell
++											689 text Icon
++								690 row (selected, expanded) Container, Secondary Actions: Collapse
++									691 container
++										692 cell
++											693 text Container
++								694 row (selected) Text
++									695 container
++										696 cell
++											697 text Text
+The focused UI element is 4 container Figma Design, 1 item selected

@@ -1,0 +1,3 @@
+receipt_id,sku,quantity,price,timestamp
+R1001,COF-001,1,4.50,2026-10-01
+R1002,UNKNOWN-SKU,2,3.00,2026-10-02
