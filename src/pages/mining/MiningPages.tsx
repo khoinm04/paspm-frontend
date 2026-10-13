@@ -7,6 +7,7 @@ import {
   CheckCircle2,
   Clock3,
   Database,
+  FileSpreadsheet,
   Download,
   Filter,
   History,
@@ -41,9 +42,9 @@ function Steps({ step }: { step: number }) {
   return (
     <Card className="stepper">
       {[
-        ["Set Your Profit Target", "Define what success looks like"],
-        ["Discover Product Pairings", "Find hidden basket opportunities"],
-        ["Review & Implement", "Bring insights to your shelves"],
+        ["POS Sales Loaded", "Validated receipt data"],
+        ["Pairing Rules", "Profit target & display rules"],
+        ["Shelf Recommendations", "Review discovered product pairings"],
       ].map(([title, sub], i) => (
         <div
           className={`step ${step === i ? "active" : step > i ? "complete" : ""}`}
@@ -208,17 +209,17 @@ export function MiningSetupPage() {
       navigate("/app/mining/running");
   }
   return (
-    <div className="page">
+    <div className="page mining-page">
       <PageHeader
         title="Product Pairing Setup"
         description="Set your profit target and display rules to discover products to place together on shelves."
         actions={
           <Badge>
-            <ShieldCheck size={13} /> Demo data ready
+            <ShieldCheck size={13} /> {ready ? "Data ready" : "Import needed"}
           </Badge>
         }
       />
-      <Steps step={0} />
+      <Steps step={1} />
       {!editable && (
         <div className="callout">
           Discovery configuration is managed by the System Administrator. Switch
@@ -246,6 +247,28 @@ export function MiningSetupPage() {
       )}
       <div className="split">
         <div className="stack">
+          <Card className="source-ledger">
+            <span className="file-icon">
+              <FileSpreadsheet size={22} />
+            </span>
+            <div className="source-ledger-copy">
+              <strong>
+                {ready
+                  ? state.imports.find(
+                      (i) => i.status !== "rejected" && i.rows.length,
+                    )?.name
+                  : "No transaction file selected"}
+              </strong>
+              <p>
+                {ready
+                  ? `${rows.toLocaleString()} sale lines ready · ${state.products.filter((p) => !p.archived).length} catalog products`
+                  : "Upload a receipt file to prepare your discovery"}
+              </p>
+            </div>
+            <Badge tone={ready ? "green" : "orange"}>
+              {ready ? "Ready to mine" : "Data needed"}
+            </Badge>
+          </Card>
           <Card className="card-pad stack">
             <div className="section-title" style={{ margin: 0 }}>
               <Target size={21} />
@@ -347,40 +370,50 @@ export function MiningSetupPage() {
                 ))}
               </div>
             </div>
-            <div className="form-grid">
-              <Field
-                label="Algorithm"
-                hint="Both options simulate discovery using the same seeded product pairs."
-              >
-                <select
-                  aria-label="Algorithm"
-                  disabled={!editable}
-                  value={config.algorithm}
-                  onChange={(e) =>
-                    change(
-                      "algorithm",
-                      e.target.value as MiningConfig["algorithm"],
-                    )
-                  }
-                >
-                  <option>EFIM</option>
-                  <option>HUI-Miner</option>
-                </select>
-              </Field>
-              <Field
-                label="Minimum utility"
-                hint="Filter demo pairs by their utility score."
-              >
-                <input
-                  aria-label="Minimum utility"
-                  disabled={!editable}
-                  type="number"
-                  min="1"
-                  value={config.minUtility}
-                  onChange={(e) => change("minUtility", Number(e.target.value))}
-                />
-              </Field>
-            </div>
+            <details
+              className="advanced-options"
+              open={!!error && config.minUtility <= 0}
+            >
+              <summary>Algorithm & advanced settings</summary>
+              <div className="advanced-content">
+                <div className="form-grid">
+                  <Field
+                    label="Algorithm"
+                    hint="Both options simulate discovery using the same seeded product pairs."
+                  >
+                    <select
+                      aria-label="Algorithm"
+                      disabled={!editable}
+                      value={config.algorithm}
+                      onChange={(e) =>
+                        change(
+                          "algorithm",
+                          e.target.value as MiningConfig["algorithm"],
+                        )
+                      }
+                    >
+                      <option>EFIM</option>
+                      <option>HUI-Miner</option>
+                    </select>
+                  </Field>
+                  <Field
+                    label="Minimum utility"
+                    hint="Filter demo pairs by their utility score."
+                  >
+                    <input
+                      aria-label="Minimum utility"
+                      disabled={!editable}
+                      type="number"
+                      min="1"
+                      value={config.minUtility}
+                      onChange={(e) =>
+                        change("minUtility", Number(e.target.value))
+                      }
+                    />
+                  </Field>
+                </div>
+              </div>
+            </details>
           </Card>
           <Card className="card-pad stack">
             <div className="section-title" style={{ margin: 0 }}>
@@ -392,47 +425,48 @@ export function MiningSetupPage() {
                 </p>
               </div>
             </div>
-            <div>
-              <p className="field" style={{ marginBottom: 12 }}>
-                Product group size
-              </p>
-              <div className="segmented">
-                {[
-                  [2, "Pairs", "2 products"],
-                  [3, "Trios", "3 products"],
-                  [4, "Family bundles", "4 products"],
-                ].map(([size, label, sub]) => (
-                  <button
-                    key={size}
-                    disabled={!editable}
-                    className={config.size === size ? "selected" : ""}
-                    onClick={() => change("size", Number(size))}
-                  >
-                    {label}
-                    <br />
-                    <small>{sub}</small>
-                  </button>
-                ))}
-              </div>
-              <p className="small muted" style={{ marginTop: 8 }}>
-                This prototype contains pair examples. Group-size preferences
-                are saved for later integration.
-              </p>
-            </div>
-            <label className="row spread callout">
+            <div className="placement-rules-grid">
               <div>
-                <strong>Allow cross-department pairings</strong>
-                <p className="small muted">
-                  Discover opportunities beyond the same aisle.
+                <p className="field" style={{ marginBottom: 12 }}>
+                  Product group size
+                </p>
+                <div className="segmented">
+                  {[
+                    [2, "Pairs", "2 products"],
+                    [3, "Trios", "3 products"],
+                    [4, "Family bundles", "4 products"],
+                  ].map(([size, label, sub]) => (
+                    <button
+                      key={size}
+                      disabled={!editable}
+                      className={config.size === size ? "selected" : ""}
+                      onClick={() => change("size", Number(size))}
+                    >
+                      {label}
+                      <br />
+                      <small>{sub}</small>
+                    </button>
+                  ))}
+                </div>
+                <p className="small muted" style={{ marginTop: 8 }}>
+                  Pair examples shown; group sizes are saved preferences.
                 </p>
               </div>
-              <input
-                type="checkbox"
-                checked={config.crossDepartment}
-                disabled={!editable}
-                onChange={(e) => change("crossDepartment", e.target.checked)}
-              />
-            </label>
+              <label className="row spread callout cross-department">
+                <div>
+                  <strong>Allow cross-department pairings</strong>
+                  <p className="small muted">
+                    Discover opportunities beyond the same aisle.
+                  </p>
+                </div>
+                <input
+                  type="checkbox"
+                  checked={config.crossDepartment}
+                  disabled={!editable}
+                  onChange={(e) => change("crossDepartment", e.target.checked)}
+                />
+              </label>
+            </div>
             <Field
               label="Exclude departments"
               hint="Keep selected categories out of this discovery."
@@ -476,30 +510,32 @@ export function MiningSetupPage() {
                 </span>
               ))}
             </div>
-            <Field
-              label="Discovery schedule"
-              hint="Saved preference only; discovery runs when you press the start button."
-            >
-              <select
-                disabled={!editable}
-                value={config.schedule}
-                onChange={(e) => change("schedule", e.target.value)}
-              >
-                <option>Manual</option>
-                <option>Daily</option>
-                <option>Weekly</option>
-              </select>
-            </Field>
+            <details className="advanced-options">
+              <summary>Discovery schedule</summary>
+              <div className="advanced-content">
+                <Field
+                  label="Discovery schedule"
+                  hint="Saved preference only; discovery runs when you press the start button."
+                >
+                  <select
+                    disabled={!editable}
+                    value={config.schedule}
+                    onChange={(e) => change("schedule", e.target.value)}
+                  >
+                    <option>Manual</option>
+                    <option>Daily</option>
+                    <option>Weekly</option>
+                  </select>
+                </Field>
+              </div>
+            </details>
           </Card>
           <div className="ready-panel">
             <Sparkles size={34} />
             <div>
               <span className="eyebrow">READY WHEN YOU ARE</span>
               <h3>Let's uncover your next opportunity.</h3>
-              <p>
-                Your current imported data will be used for this simulated
-                discovery.
-              </p>
+              <p>Your receipt data is ready for a simulated discovery.</p>
             </div>
           </div>
           {error && (
@@ -507,7 +543,7 @@ export function MiningSetupPage() {
               {error}
             </div>
           )}
-          <details className="small muted">
+          <details className="demo-tools small muted">
             <summary>Demo scenario controls</summary>
             <label className="row" style={{ marginTop: 10 }}>
               <input

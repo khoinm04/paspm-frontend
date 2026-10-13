@@ -25,10 +25,11 @@ export function PairingCard({
     .filter((p) => !!p);
   return (
     <Card className="pair-card">
-      <div className="row spread wrap">
+      <div className="row spread wrap pair-heading">
         <div className="row">
-          <span className="eyebrow">
-            PAIRING #{pairing.id.replace("r", "").padStart(3, "0")}
+          <span className="pair-rank">
+            Rank #{pairing.id.replace("r", "").padStart(2, "0")} ·{" "}
+            <span>{pairing.title}</span>
           </span>
           <Badge
             tone={
@@ -42,7 +43,7 @@ export function PairingCard({
             {pairing.status === "pending" ? "Ready for review" : pairing.status}
           </Badge>
         </div>
-        <span className="small muted">{pairing.location}</span>
+        <span className="small muted">{pairing.minutes} min setup</span>
       </div>
       <div className="pair-products">
         {products.map((product, index) => (
@@ -67,7 +68,6 @@ export function PairingCard({
           </div>
         ))}
       </div>
-      <h3 style={{ marginBottom: 16 }}>{pairing.title}</h3>
       <div className="pair-stats">
         <div>
           <span className="eyebrow">Est. monthly profit lift</span>
@@ -93,7 +93,7 @@ export function PairingCard({
         </span>
       </div>
       <div className="pair-footer">
-        <p>Turn a purchase pattern into a better in-store experience.</p>
+        <p>Placement: {pairing.location}</p>
         <div className="actions">
           <Link
             className="button secondary"

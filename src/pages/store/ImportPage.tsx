@@ -148,7 +148,7 @@ export function ImportPage() {
     setMapping(true);
   };
   return (
-    <div className="page stack">
+    <div className="page stack import-page">
       <div className="breadcrumbs">
         <Link to="/app/overview">Home</Link>
         <span>/</span>
@@ -158,7 +158,7 @@ export function ImportPage() {
       </div>
       <PageHeader
         title="Import POS Transaction Data"
-        description="Upload your store’s receipt logs and checkout sales. Discover which products shoppers buy together and plan complementary shelf placements."
+        description="Upload sales receipts to discover product pairings and plan complementary shelf placements."
         actions={
           <>
             <Button
@@ -430,45 +430,48 @@ export function ImportPage() {
               if (file) void upload(file);
             }}
           />
-          <Card className="card-pad stack-sm">
-            <div className="row spread">
-              <h2 className="section-title">Try a demo receipt batch</h2>
-              <Badge tone="neutral">Demo fixtures</Badge>
+          <details className="demo-tools">
+            <summary>Try a demo receipt batch</summary>
+            <div className="demo-tools-content">
+              <div className="row spread">
+                <h2 className="section-title">Sample receipt files</h2>
+                <Badge tone="neutral">Demo fixtures</Badge>
+              </div>
+              <p className="small muted">
+                Explore each validation state without preparing a file.
+              </p>
+              <div className="actions">
+                <Button
+                  variant="secondary"
+                  disabled={loading || busy}
+                  onClick={() => chooseDemo("valid")}
+                >
+                  Load valid sample
+                </Button>
+                <Button
+                  variant="secondary"
+                  disabled={loading || busy}
+                  onClick={() => chooseDemo("warning")}
+                >
+                  Load warning sample
+                </Button>
+                <Button
+                  variant="secondary"
+                  disabled={loading || busy}
+                  onClick={() => chooseDemo("invalid")}
+                >
+                  Load rejected sample
+                </Button>
+                <Button
+                  variant="ghost"
+                  disabled={loading || busy}
+                  onClick={() => chooseDemo("excel")}
+                >
+                  Simulate Excel export
+                </Button>
+              </div>
             </div>
-            <p className="small muted">
-              Explore each validation state without preparing a file.
-            </p>
-            <div className="actions">
-              <Button
-                variant="secondary"
-                disabled={loading || busy}
-                onClick={() => chooseDemo("valid")}
-              >
-                Load valid sample
-              </Button>
-              <Button
-                variant="secondary"
-                disabled={loading || busy}
-                onClick={() => chooseDemo("warning")}
-              >
-                Load warning sample
-              </Button>
-              <Button
-                variant="secondary"
-                disabled={loading || busy}
-                onClick={() => chooseDemo("invalid")}
-              >
-                Load rejected sample
-              </Button>
-              <Button
-                variant="ghost"
-                disabled={loading || busy}
-                onClick={() => chooseDemo("excel")}
-              >
-                Simulate Excel export
-              </Button>
-            </div>
-          </Card>
+          </details>
           <Card className="card-pad stack">
             <div className="row spread">
               <div>
@@ -633,6 +636,10 @@ export function ImportPage() {
             ))}
           </Card>
           <div className="note-card">
+            <img
+              src="/assets/store-aisle.png"
+              alt="Supermarket shelf display"
+            />
             <div className="row">
               <BookOpen size={19} />
               <h3>How PlanogramIQ uses this</h3>

@@ -156,7 +156,7 @@ export function RecommendationsPage() {
     setPage(1);
   };
   return (
-    <div className="page stack">
+    <div className="page stack recommendations-page">
       <div className="breadcrumbs">
         <Link to="/app/overview">Home</Link>
         <span>/</span>
@@ -294,7 +294,7 @@ export function RecommendationsPage() {
                         <Check size={15} />{" "}
                         {r.status === "approved"
                           ? "Approved"
-                          : "Approve & Push to Planogram"}
+                          : "Approve pairing"}
                       </Button>
                       {r.status !== "rejected" && (
                         <Button
@@ -493,6 +493,9 @@ export function RecommendationDetailPage() {
     .map((pid) => state.products.find((p) => p.id === pid))
     .filter((p) => !!p);
   const margin = products.reduce((s, p) => s + p.price - p.cost, 0);
+  const totalPrice = products.reduce((sum, p) => sum + p.price, 0);
+  const solo = products[0];
+  const soloMargin = solo ? solo.price - solo.cost : 0;
   const workOrder = () =>
     downloadText(
       `shelf-work-order-${pairing.id}.txt`,
@@ -511,7 +514,7 @@ export function RecommendationDetailPage() {
       "text/plain",
     );
   return (
-    <div className="page stack">
+    <div className="page stack detail-page">
       <div className="breadcrumbs">
         <Link to="/app/overview">Home</Link>
         <span>/</span>
@@ -525,7 +528,7 @@ export function RecommendationDetailPage() {
         <ArrowLeft size={16} />
         Back to Recommendations
       </Link>
-      <Card className="card-pad stack">
+      <Card className="card-pad stack detail-intro">
         <div className="row wrap">
           <Badge
             tone={
@@ -597,48 +600,90 @@ export function RecommendationDetailPage() {
               <div>
                 <h2>Why This Pairing Works (Store Evidence)</h2>
                 <p className="muted small">
-                  Coherent seeded catalog values and simulated pairing metrics
+                  Illustrative basket comparison using catalog prices.
                 </p>
               </div>
               <Badge tone="neutral">Simulated evidence</Badge>
             </div>
-            <div className="grid-2">
-              {products.map((p) => (
-                <div key={p.id} className="required-item stack-sm">
-                  <div className="row">
-                    <img className="product-thumb" src={p.image} alt={p.name} />
-                    <h3>{p.name}</h3>
+            <div className="evidence-comparison">
+              <div className="evidence-panel">
+                <div className="row spread">
+                  <span className="eyebrow">Single-product basket</span>
+                  <Badge tone="neutral">Baseline</Badge>
+                </div>
+                <div className="evidence-value">
+                  {money(solo?.price ?? 0)} <span>basket value</span>
+                </div>
+                <div className="stat-list">
+                  <div>
+                    <span>Gross margin</span>
+                    <strong>
+                      {solo?.price
+                        ? ((100 * soloMargin) / solo.price).toFixed(1)
+                        : 0}
+                      %
+                    </strong>
                   </div>
-                  <div className="stat-list">
-                    <div>
-                      <span>Sale price</span>
-                      <strong>{money(p.price)}</strong>
-                    </div>
-                    <div>
-                      <span>Unit cost</span>
-                      <strong>{money(p.cost)}</strong>
-                    </div>
-                    <div>
-                      <span>Unit gross margin</span>
-                      <strong>{money(p.price - p.cost)}</strong>
-                    </div>
-                    <div>
-                      <span>Stock available</span>
-                      <strong>{p.stock} units</strong>
-                    </div>
+                  <div>
+                    <span>Gross profit</span>
+                    <strong>{money(soloMargin)}</strong>
+                  </div>
+                  <div>
+                    <span>Products</span>
+                    <strong>1 item</strong>
                   </div>
                 </div>
-              ))}
-            </div>
-            <div className="callout success">
-              <div className="row spread">
-                <strong>Combined gross margin per bundle</strong>
-                <strong>{money(margin)}</strong>
               </div>
-              <p className="small">
-                Sum of catalog unit prices less unit costs. Projected monthly
-                lift is a separate simulated aggregate.
-              </p>
+              <div className="evidence-panel paired">
+                <div className="row spread">
+                  <span className="eyebrow">Paired basket</span>
+                  <Badge tone="green">{pairing.affinity}% affinity</Badge>
+                </div>
+                <div className="evidence-value">
+                  {money(totalPrice)} <span>basket value</span>
+                </div>
+                <div className="stat-list">
+                  <div>
+                    <span>Gross margin</span>
+                    <strong>
+                      {totalPrice
+                        ? ((100 * margin) / totalPrice).toFixed(1)
+                        : 0}
+                      %
+                    </strong>
+                  </div>
+                  <div>
+                    <span>Gross profit</span>
+                    <strong>{money(margin)}</strong>
+                  </div>
+                  <div>
+                    <span>Products</span>
+                    <strong>{products.length} items</strong>
+                  </div>
+                </div>
+                <div className="evidence-gain">
+                  Additional unit profit{" "}
+                  <strong>+{money(margin - soloMargin)}</strong>
+                </div>
+              </div>
+            </div>
+            <div className="affinity-summary">
+              <div className="row spread">
+                <h3>Basket co-occurrence</h3>
+                <span className="small muted">Illustrative pairing model</span>
+              </div>
+              <div
+                className="affinity-track"
+                aria-label={`${pairing.affinity}% basket affinity`}
+              >
+                <span style={{ width: `${pairing.affinity}%` }} />
+              </div>
+              <div className="row spread small">
+                <strong>{pairing.affinity}% purchased together</strong>
+                <span className="muted">
+                  {100 - pairing.affinity}% other baskets
+                </span>
+              </div>
             </div>
             <div className="callout warning">
               <div className="row">
@@ -663,38 +708,61 @@ export function RecommendationDetailPage() {
               </div>
               <Badge tone="neutral">Concept schematic</Badge>
             </div>
-            <div className="shelf">
-              <div className="row spread">
-                <strong>{pairing.location}</strong>
-                <span className="small muted">
-                  Check fixture clearance in store
-                </span>
+            <div className="shelf blueprint">
+              <div className="row spread blueprint-title">
+                <strong>{pairing.location} · Front view</strong>
+                <span className="small muted">4 shelf levels</span>
               </div>
-              <div className="shelf-level">
-                Upper shelf · Existing assortment
-              </div>
-              <div className="shelf-level highlight">
-                <strong>Eye-level anchor</strong>
-                <div className="row wrap">
-                  {products.map((p) => (
-                    <div key={p.id} className="row">
-                      <img className="product-thumb" src={p.image} alt="" />
-                      <span>
-                        {p.name}
-                        <br />
-                        <small>{p.sku}</small>
-                      </span>
+              <div className="blueprint-grid">
+                <div className="blueprint-shelves">
+                  <div className="blueprint-level">
+                    <span>Shelf 4 · Upper assortment</span>
+                    <p>Existing products</p>
+                  </div>
+                  <div className="blueprint-level anchor">
+                    <div className="row spread">
+                      <strong>Shelf 3 · Eye-level anchor</strong>
+                      <Badge>Primary</Badge>
+                    </div>
+                    {solo && (
+                      <div className="blueprint-product">
+                        <img src={solo.image} alt={solo.name} />
+                        <div>
+                          <strong>{solo.name}</strong>
+                          <small>{solo.sku}</small>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div className="blueprint-level">
+                    <span>Shelf 2 · Everyday assortment</span>
+                    <p>Existing products</p>
+                  </div>
+                  <div className="blueprint-level">
+                    <span>Shelf 1 · Lower assortment</span>
+                    <p>Existing products</p>
+                  </div>
+                </div>
+                <div className="blueprint-strip">
+                  <span className="eyebrow">Attach clip-strip</span>
+                  {products.slice(1).map((p) => (
+                    <div className="strip-product" key={p.id}>
+                      <img src={p.image} alt={p.name} />
+                      <strong>{p.name}</strong>
+                      <small>{p.sku}</small>
                     </div>
                   ))}
+                  <div className="strip-guidance">
+                    <span>Eye-level placement</span>
+                    <span>Face shopper traffic</span>
+                    <span>Keep aisle clear</span>
+                  </div>
+                  <Badge tone="green">Review clearance</Badge>
                 </div>
               </div>
-              <div className="shelf-level">
-                Lower shelf · Existing assortment
-              </div>
-              <p className="small muted">
-                Place complementary products together without blocking aisle
-                access. This is a suggested diagram; no structural or load
-                assessment has been performed.
+              <p className="blueprint-caption">
+                Concept placement. Verify fixture load and aisle clearance in
+                store.
               </p>
             </div>
             <LayoutLink className="button secondary">
@@ -742,17 +810,12 @@ export function RecommendationDetailPage() {
                 </strong>
               </div>
             </div>
-            <p className="small muted">
-              Inventory reflects the current demo catalog. Verify actual stock
-              before execution.
-            </p>
+            <p className="small muted">Current catalog stock.</p>
           </Card>
           <div className="callout success stack-sm">
             <h3>Ready to activate this pairing?</h3>
             <p className="small">
-              Approval adds it to the pool of pairings available for layout
-              planning. Activate a campaign separately to make a bundle visible
-              to customers.
+              Add this pairing to your shelf plan, then activate a campaign.
             </p>
             {pairing.status === "approved" ? (
               <LayoutLink className="button primary">

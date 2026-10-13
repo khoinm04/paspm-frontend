@@ -72,12 +72,10 @@ export function LoginPage() {
           Sign in to explore your floor plans and daily product discoveries.
         </p>
         <form className="stack-sm" onSubmit={submit} noValidate>
-          <Field
-            label="Demo role"
-            hint="Choose a role to explore this frontend prototype."
-          >
+          <div className="login-role">
+            <label htmlFor="login-role">Workspace</label>
             <select
-              className="select"
+              id="login-role"
               aria-label="Demo role"
               value={selectedRole}
               onChange={(e) => setSelectedRole(e.target.value as Role)}
@@ -88,7 +86,7 @@ export function LoginPage() {
                 </option>
               ))}
             </select>
-          </Field>
+          </div>
           <Field label="Email" error={errors.email}>
             <input
               className="input"
@@ -136,20 +134,13 @@ export function LoginPage() {
             />
             Remember this store terminal
           </label>
-          <p className="small muted">
-            Demo session only. This preference does not create an authentication
-            token.
-          </p>
           <Button type="submit">
             {selectedRole === "customer"
               ? "Explore the market"
               : "Sign in to workspace"}{" "}
             <ArrowRight size={18} />
           </Button>
-          <div
-            className="row"
-            style={{ justifyContent: "center", padding: "8px 0" }}
-          >
+          <div className="login-or">
             <span className="muted small">OR</span>
           </div>
           <Button variant="secondary" onClick={() => setExplanation("sso")}>

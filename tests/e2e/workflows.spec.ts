@@ -18,6 +18,9 @@ test("system configures mining and opens the completed benchmark", async ({
 }) => {
   await role(page, "system");
   await page.goto("/app/mining/setup");
+  await page
+    .getByText("Algorithm & advanced settings", { exact: true })
+    .click();
   await page.getByLabel("Algorithm", { exact: true }).selectOption("EFIM");
   await page.getByLabel("Minimum utility", { exact: true }).fill("120");
   await page.getByLabel("Minimum profit target", { exact: true }).fill("1200");
@@ -186,6 +189,9 @@ test("invalid CSV is rejected and invalid mining thresholds block execution", as
   ).toBeVisible();
   await role(page, "system");
   await page.goto("/app/mining/setup");
+  await page
+    .getByText("Algorithm & advanced settings", { exact: true })
+    .click();
   await page.getByLabel("Minimum utility", { exact: true }).fill("-1");
   await page.getByRole("button", { name: "Discover Product Pairings" }).click();
   await expect(page).toHaveURL(/\/app\/mining\/setup/);
